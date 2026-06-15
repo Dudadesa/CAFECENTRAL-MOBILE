@@ -85,25 +85,25 @@ export default function Index() {
 
           { /* CARD 1 */}
           <View style = {styles.card}>
-            <Text style = {styles.cardTitulo}>Projetos Reais</Text> { /* Título */}
+            <Text style = {styles.cardTitulo}>Cafés Premiun</Text> { /* Título */}
             <Text style = {styles.cardDescricao}> { /* Descrição */}
-              Você desenvolve sites com base em situações profissionais
+              Experiência única com grãos de alta qualidade
             </Text>
           </View>
 
           { /* CARD 2 */}
           <View style = {styles.card}>
-            <Text style = {styles.cardTitulo}>Materiais Didáticos</Text>
+            <Text style = {styles.cardTitulo}>Ingredientes Selecionados</Text>
             <Text style = {styles.cardDescricao}>
-              Conteúdos e exercícios práticos
+              Produtos de frescos e cuidadosamente escolhidos
             </Text>
           </View>
 
           { /* CARD 3 */}
           <View style = {styles.card}>
-            <Text style = {styles.cardTitulo}>Suporte do Instrutor</Text>
+            <Text style = {styles.cardTitulo}>Atendimento especial</Text>
             <Text style = {styles.cardDescricao}>
-              Acompanhamento durante todo processo
+              Equipe preparada para tornar sua visita inesquecível
             </Text>
           </View>
 

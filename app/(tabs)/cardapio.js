@@ -1,0 +1,307 @@
+import {
+    View, // Para agrupar elementos (= div)
+    Text, // Para exibir textos (= p, h1...)
+    TouchableOpacity, // Para botões clicáveis (= button)
+    ScrollView, // Para a área principal com scroll,
+    StyleSheet, // Para aplicar estilo na página,
+    Image,
+    FlatList,
+    TextInput
+   } from 'react-native'; // Importa os componentes View e Text
+   import {useState} from 'react';
+   import {Link} from 'expo-router';
+   import cardapioJson from '../../assets/data/cardapio.json';
+   
+  export default function Cardapio() {
+    // Cria um objeto JS como se fosse um dicionário para armazenar as imagens
+    const imagensCardapio = {
+                'cafeexpresso.webp' : require('../../assets/images/cafeexpresso.webp'),
+                'cappuccino.webp': require('../../assets/images/cappuccino.webp'),
+                'latte.webp': require('../../assets/images/latte.webp'),
+                'mocha.jpg': require('../../assets/images/mocha.jpg'),
+                'croissant.webp': require('../../assets/images/croissant.webp'),
+                'paodqueijo.jpg': require('../../assets/images/paodqueijo.jpg'),
+            };
+    // Para cada curso em cardapiosJson:
+    //  Junta tudo de cardapios.json + caminho de cada imagem em imagenscardapios
+    const cardapios = cardapioJson.map((cardapio) =>
+    (
+    {
+      ...cardapio,
+      img: imagensCardapio[cardapio.img],
+    }
+    )
+    );
+
+    const [busca, setBusca] = useState('');
+
+    const cardapiosFiltrados = cardapios.filter(
+      (cardapio) => {
+         return cardapio.titulo.toLowerCase().includes(busca.toLocaleLowerCase())
+      }
+
+   
+
+    )
+
+   return (
+      <ScrollView>
+          { /*=========== TOPO (HEADER) =============*/}
+          { /*=========== Área de cabeçalho com logo e menu =============*/}
+          <View style={styles.topo}>
+ 
+          { /* Logo do sistema */}
+          <Link href='/'>
+            <Text style={styles.logoP1}>Café</Text>
+            <Text style={styles.logoP2}>Central</Text>
+          </Link>
+ 
+            { /* Menu de Navegação */}
+            <View style={styles.menu}>
+              <Link href='/'>
+                <Text style={styles.menuItem}> Início </Text>
+              </Link>
+              <Link href='/sobre'>
+                <Text style={styles.menuItem}> Sobre </Text>
+              </Link>
+              <Link href='/contato'>
+                <Text style={styles.menuItem}> Contato </Text>
+              </Link>
+              <Link href='/cardapios'>
+                <Text style={[styles.menuItem, styles.ativo]}>cardapios</Text>
+              </Link>
+              
+            </View>
+          </View>
+
+          { /*=========== CONTEÚDO DA PÁGINA =============*/}
+          <View style={styles.cardapios}>
+            <Text style={styles.tituloPagina}>
+              Nossos cardapios
+            </Text>
+
+            <TextInput
+              style={styles.buscarCardapios}
+              placeholder="Buscar Cardapios"
+              value={busca}
+              onChangeText={setBusca}
+            ></TextInput>
+
+
+            <FlatList
+              data={cardapiosFiltrados}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                // card do curso aqui
+                <View style={styles.cardapio}>
+
+                  <Text style={styles.cardapioTitulo}>
+                      {item.titulo}
+                  </Text>
+
+                  <Image style={styles.cardapioImagem} source={item.img} ></Image>
+
+                  <Text style={styles.cardapioDescricao}>
+                    {item.descricao}
+                  </Text>
+
+                  <Text style={styles.cardapioR$}>
+                    R$: {item.R$} 
+                  </Text>
+
+                  <Link style={styles.cardapioBtnLink} href={{
+                    pathname: '/detalhesCurso',
+                    params: {
+                      titulo: item.titulo,
+                      descricao: item.descricao,
+                      R$: item.r$,
+                      objetivo: item.objetivo,
+                      publico: item.publico,
+                    },
+                  }} asChild>
+
+                    <TouchableOpacity style={styles.btnCardapio}>
+                      <Text style={styles.textoBtnCardapio}>
+                        Ver detalhes
+                      </Text>
+                    </TouchableOpacity>
+                   
+                  </Link>
+
+                </View>
+
+              )}
+            />
+           
+ 
+            </View>
+
+
+
+
+          { /*=========== RODAPÉ =============*/}
+          { /* Parte final da página */}
+          <View style={styles.rodape}>
+            { /* Texto de direitos de autorais */}
+            <Text style={styles.textoRodape}> 2026 CaféCentral. Todos os direitos reservados.</Text>
+ 
+            { /* Links de Contato */}
+            <Link href='/contato'>
+              <Text style={styles.linkRodape}>Entre em contato</Text>'
+            </Link>
+          </View>
+ 
+      </ScrollView>
+   );
+  }
+ 
+  const styles = StyleSheet.create(
+    {
+     topo: {
+       backgroundColor: '#21282A',
+       padding:20,
+       alignItems: 'center',
+       gap: 10,
+      },
+      
+ 
+      logoP1: {
+        color:'#ffffff',
+        fontSize:24,
+        fontWeight: 'bold',
+      },
+ 
+      logoP2: {
+        color:'#e7c78a',
+        fontSize:24,
+        fontWeight: 'bold',
+      },
+  
+      menu: {
+        marginTop: 10,
+        alignItems: 'center',
+        gap: 10,
+      },
+ 
+      menuItem: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+      },
+ 
+      ativo: {
+        color: '#e7c78a',
+      },
+
+      tituloPagina: {
+        fontSize: 28,
+        color: '#e7c78a',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 10,
+      },
+
+      cardapios: {
+        alignItems: 'center',
+        backgroundColor: 'white'
+      },
+
+      buscarCardapios: {
+        backgroundColor: 'white',
+        textAlign: 'center',
+        alignItems: 'center',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 8,
+        width: 140
+      },
+ 
+      curso: {
+        backgroundColor: '#ffffff',
+        padding: 15,
+        borderRadius: 8,
+        marginBottom: 15,
+        elevation: 3,
+      },
+
+      cardapioTitulo:{
+        color: '#e7c78a',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
+
+      btnCurso: {
+        backgroundColor: '#e7c78a',
+        paddingVertical: 10,
+        borderRadius: 6,
+        alignItems:'center',
+        marginTop: 10
+      },
+
+      textoBtnCardapio: {
+        color: 'white',
+        fontSize: 10,
+        textAlign: 'center',
+        width: 80
+      },
+
+      cardapioBtnLink: {
+        textAlign:'center'
+      },
+
+      cardapioImagem: {
+        width: '100%',
+        height: 140,
+        backgroundColor: '#f5f5f5',
+        borderRadius: 6,
+        marginBottom: 10,
+        resizeMode:'contain'
+
+      },
+
+      cardapioDescricao: {
+        textAlign: 'center',
+        color:'black',
+        fontSize: 16,
+        margin: 10
+      },
+
+      cardapioR$: {
+        textAlign: 'center',
+        color:'black',
+        fontSize: 16,
+        margin: 10,
+        fontWeight: 'bold'
+      },
+
+ 
+      rodape: {
+        backgroundColor: '#21282A',
+        padding: 20,
+        alignItems: 'center',
+        gap: 8,
+      },
+ 
+      textoRodape: {
+        color : '#e7c78a',
+        textAlign: 'center',
+        marginBottom: 8,
+      },
+ 
+      linkRodape: {
+        color: '#e7c78a',
+        fontWeight: 'bold',
+        textDecorationLine: 'none'
+      },
+  
+      tituloDestaque : {
+        color: '#e7c78a',
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 20
+      }
+  
+    }
+
+  )

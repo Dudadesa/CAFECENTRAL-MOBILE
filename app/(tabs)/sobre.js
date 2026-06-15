@@ -35,6 +35,23 @@ export default function Sobre() { {/* Define e exporta o componente principal da
 
     {/* ============== CONTEÚDO DA PÁGINA ============== */}
 
+    <View style={styles.sobre}>
+              <Text style={styles.titulo}>Sobre a CaféCentral</Text>
+              <Text style={styles.texto}>A CafeCentral e uma cafeteria criada
+              para Oferecer um ambiente acolhedor com produtos de qualidade e
+              atendimento proximo ao cliente </Text>
+
+              <Text style={styles.subtitulo}>Nossa missao</Text>
+              <Text style={styles.texto}>Oferecer cafes, lanches e bons momentos aos clientes</Text>
+
+              <Text style={styles.subtitulo}>Nossos Produtos</Text>
+              <View style={styles.lista}>
+                <Text style={styles.itemLista}>• Qualidade</Text>
+                <Text style={styles.itemLista}>• Acolhimento</Text>
+                <Text style={styles.itemLista}>• Respeito </Text>
+              </View>
+          </View>
+
     {/* ============== RODAPÉ ============== */}
     {/* Parte final da página */}
     <View style={styles.rodape}>
@@ -85,6 +102,42 @@ const styles = StyleSheet.create(
 
     ativo: {
       color: '#ffffff',
+    },
+
+    sobre: {
+      padding: 20,
+      backgroundColor: '#ffffff',
+    },
+
+    titulo: {
+      fontSize: 26,
+      fontWeight: 'bold',
+      marginBottom: 15,
+      textAlign: 'center',
+    },
+
+    subtitulo: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginTop: 20,
+      marginBottom: 8,
+      textAlign: 'center'
+    },
+
+    texto: {
+      fontSize: 16,
+      lineHeight: 24,
+      textAlign: 'center',
+    },
+
+    lista: {
+      marginTop: 10,
+      alignItems: 'center'
+    },
+
+    itemLista: {
+      fontSize: 16,
+      marginBottom: 6,
     },
 
     rodape: {
