@@ -6,34 +6,123 @@ import {
     StyleSheet // Para aplicar estilo na página
    } from 'react-native'; // Importa os componentes View e Text
    import { Link } from 'expo-router';
-  import { TextInput } from 'react-native-web';
+   import { TextInput } from 'react-native-web';
+   import  Header  from '../../components/Header'
+   import Footer from '../../components/Footer'
+
+  const API_URL = "http://localhost:3000"
    
   export default function Cadastro() {
+    const[nome,setNome] = useState('');
+    const[email,setEmail] = useState('');
+    const[senha,setSenha] = useState('');
+    const[confirmarSenha,setConfirmarSenha] = useState('');
+
+    const[mensagemSistema,setMensagemSistema] = useState('');
+    const[tipoMensagem,setTipoMensagem] = useState('');
+
+   async function validarCadastro(){
+    if(nome === ''){
+      setMensagemSistema("Digite seu nome!");
+      setTipoMensagem("erro");
+      return
+    }
+
+    if(/\d/.test(nome)){
+      setMensagemSistema("O nome não pode conter número!");
+      setTipoMensagem("erro");
+      return
+    }
+
+    if(email === ''){
+      setMensagemSistema("Digite seu email!");
+      setTipoMensagem("erro");
+      return
+    }
+    if(!email.includes("@") || !email.includes(".com")){
+      setMensagemSistema("Digite um e-mail válido!");
+      setTipoMensagem("erro");
+      return
+    }
+
+    if(senha === ''){
+      setMensagemSistema("Digite sua senha!");
+      setTipoMensagem("erro");
+      return
+    }
+
+    if(senha.length < 6 ){
+      setMensagemSistema("A senha deve ter pelo menos 6 caracteres!");
+      setTipoMensagem("erro");
+      return
+    }
+
+    if(confirmarSenha === ''){
+      setMensagemSistema("Digite novamente sua senha!");
+      setTipoMensagem("erro");
+      return
+    }
+   
+    if(confirmarSenha.length < 6 ){
+      setMensagemSistema("A senha deve ter pelo menos 6 caracteres!");
+      setTipoMensagem("erro");
+      return
+    }
+
+    if(senha !== confirmarSenha){
+      setMensagemSistema("As senhas devem ser iguais.");
+      setTipoMensagem("erro");
+      return
+    }
+    //Tenta executar o bloco, se houver erro de rede, o código vai para o cath
+    try{
+      // Faz uma requisição HTTP para a rota da API usando o método POST
+      const resposta = await fetch(`${API_URL}/cadastro`,{
+        method: 'POST', // Define que a requisição vai ENVIAR DADOS
+        headers: {'Content-Type': 'application/json'}, // Informa que o corpo da requisição está JSON
+        credentials:'include', // Inclui cookies e sessão na requisição, útil para autenticação
+        body: JSON.stringify({
+          nome: nome,
+          email: email,
+          senha: senha
+        }) // Converte os dados de JavaScript para texto JSON antes de enviar
+      });
+      // Converte a resposta recebida da API de JSON para objeto JavaScript
+      const dados = await resposta.json()
+
+      // Verifica se a resposta HTTP foi de sucesso
+      if(resposta.ok){
+        // Mostra a mensagem de sucesso vinda da API,
+          //ou um texto padrão se ela não enviar nada
+        setMensagemSistema(dados.mensagem || "Cadastro realizado")
+        // Define o "estilo" da mensagem como sucesso
+        setTipoMensagem("sucesso")
+        // Limpa os campos do formulário
+        setNome('')
+        setEmail('')
+        setSenha('')
+        setConfirmarSenha('')
+      } else{
+        // Mostra a mensagem de erro vinda da API,
+          // ou um texto padrão se ela não enviar nada
+        setMensagemSistema(dados.erro || "Erro ao cadastrar")
+        // Define o "estilo" da mensagem como erro
+        setTipoMensagem("erro")
+      }
+    }catch(erro){
+      //  Executado quando acontece falha na conexão,
+        // como internet fora do ar ou servidor indisponivel
+      setMensagemSistema("Erro ao conectar com o servidor")
+      // Define o "estilo" da mensagem como erro
+      setTipoMensagem("erro")
+    }
+  }
+
    return (
       <ScrollView>
           { /*=========== TOPO (HEADER) =============*/}
           { /*=========== Área de cabeçalho com logo e menu =============*/}
-          <View style={styles.topo}>
-  
-          { /* Logo do sistema */}
-          <Link href = '/'>
-            <Text style={styles.logoP1}>Cafe</Text>
-            <Text style={styles.logoP2}>Central</Text>
-          </Link>
-  
-            { /* Menu de Navegação */}
-            <View style={styles.menu}>
-              <Link href= '/'>
-                <Text style={styles.menuItem}> Início </Text>
-              </Link>
-              <Link href= '/sobre'>
-                <Text style={styles.menuItem}> Sobre </Text>
-              </Link>
-              <Link href= '/contato'>
-                <Text style={styles.menuItem}> Contato </Text>
-              </Link>
-            </View>
-          </View>
+           <Header ativo = "Cadastro"></Header>
   
           { /*=========== CONTEUDO DA PAGINA  =============*/}
           <View style={styles.container}>
@@ -94,15 +183,7 @@ import {
   
           { /*=========== RODAPÉ =============*/}
           { /* Parte final da página */}
-          <View style={styles.rodape}>
-            { /* Texto de direitos de autorais */}
-            <Text style={styles.textoRodape}> 2026 CafeCentral. Todos os direitos reservados.</Text>
-  
-            { /* Links de Contato */}
-            <Link href='/contato'>
-              <Text style={styles.linkRodape}>Entre em contato</Text>
-            </Link>
-          </View>
+           <Footer></Footer>
   
       </ScrollView>
    );

@@ -5,82 +5,101 @@ import {
   ScrollView, // Para a área principal com scroll,
   StyleSheet // Para aplicar estilo na página
  } from 'react-native'; // Importa os componentes View e Text
- import { Link } from 'expo-router';
-import { useState } from 'react';
-import { TextInput } from 'react-native-web';
+  import { Link } from 'expo-router';
+  import { useState } from 'react';
+  import { TextInput } from 'react-native-web';
+  import  Header  from '../../components/Header'
+  import Footer from '../../components/Footer'
+
+  const API_URL = "http://localhost:3000"
  
-export default function Contato() {
+  export default function Contato() {
   const[nome, setNome] = useState('');
-  const[email, setEmail] = useState('');
-  const[mensagem, setMensagem] = useState('');
+   const[email,setEmail] = useState('');
+   const[mensagem,setMensagem] = useState('');
 
-  const[mensagemSistema, setMensagemSistema] = useState('');
-  const[tipoMensagem, setTipoMensagem] = useState('');
+   const[mensagemSistema,setMensagemSistema] = useState('');
+   const[tipoMensagem, setTipoMensagem] = useState('');
 
-  function validarFormulario(){
-    if(nome === ''){
-      setMensagemSistema('Digite seu nome')
-      setTipoMensagem('erro');
-      return;
-    }
-    if(/\d/.test(nome)){
-      setMensagemSistema("O nome nao pode conter numero!");
-      setTipoMensagem("erro");
-      return;
-    }
-    if(email === ''){
-      setMensagemSistema("Digite seu e-mail")
-      setTipoMensagem("erro");
-      return;
-    }
-    if(!email.includes('@') || !email.includes('.com')){
-      setMensagemSistema("Digite seu e-mail valido");
-      setTipoMensagem("erro");
-      return;
-    }
-    if(mensagem === ''){
-      setMensagemSistema('Digite uma mensagem')
-      setTipoMensagem('erro');
-      return;
-    };
-    if(mensagem.length< 10){
-      setMensagemSistema('A mensagem deve ter menos de 10 caracteres');
-      setTipoMensagem('erro');
-      return;
-    }
+    async function validarFormulario(){
+      if(nome === ''){
+        setMensagemSistema('Digite seu nome');
+        setTipoMensagem('erro');
+        return;
+      }
+      if(/\d/.test(nome)){
+        setMensagemSistema("O nome não pode conter número!");
+        setTipoMensagem("erro");
+        return;
+      }
+      if(email === ''){
+        setMensagemSistema("Digite seu e-mail");
+        setTipoMensagem("erro");
+        return;
+      }
+      if(!email.includes('@') || !email.includes('.com')){
+        setMensagemSistema("Digite um e-mail válido");
+        setTipoMensagem("erro");
+        return;
+      }
+      if(mensagem === ''){
+        setMensagemSistema('Digite uma mensagem');
+        setTipoMensagem('erro');
+        return;
+      };
+      if(mensagem.length < 10){
+        setMensagemSistema('A mensagem deve ter pelo menos 10 caracteres');
+        setTipoMensagem('erro');
+        return;
+      }
 
-    setMensagemSistema("Mensagem enviada com sucesso")
-    setTipoMensagem("sucesso");
+      //Tenta executar o bloco, se houver erro de rede, o código vai para o cath
+    try{
+      // Faz uma requisição HTTP para a rota da API usando o método POST
+      const resposta = await fetch(`${API_URL}/contato`,{
+        method: 'POST', // Define que a requisição vai ENVIAR DADOS
+        headers: {'Content-Type': 'application/json'}, // Informa que o corpo da requisição está JSON
+        credentials:'include', // Inclui cookies e sessão na requisição, útil para autenticação
+        body: JSON.stringify({
+          nome: nome,
+          email: email,
+          mensagem: mensagem
+        }) // Converte os dados de JavaScript para texto JSON antes de enviar
+      });
+      // Converte a resposta recebida da API de JSON para objeto JavaScript
+      const dados = await resposta.json()
 
-    setNome('');
-    setEmail('');
-    setMensagem('');
-  };
+      // Verifica se a resposta HTTP foi de sucesso
+      if(resposta.ok){
+        // Mostra a mensagem de sucesso vinda da API,
+          //ou um texto padrão se ela não enviar nada
+        setMensagemSistema(dados.mensagem || "Mensagem enviada")
+        // Define o "estilo" da mensagem como sucesso
+        setTipoMensagem("sucesso")
+        // Limpa os campos do formulário
+        setNome('');
+        setEmail('');
+        setMensagem('');
+      } else{
+        // Mostra a mensagem de erro vinda da API,
+          // ou um texto padrão se ela não enviar nada
+        setMensagemSistema(dados.erro || "Erro ao ao enviar mensagem")
+        // Define o "estilo" da mensagem como erro
+        setTipoMensagem("erro")
+      }
+    }catch(erro){
+      //  Executado quando acontece falha na conexão,
+        // como internet fora do ar ou servidor indisponivel
+      setMensagemSistema("Erro ao conectar com o servidor")
+      // Define o "estilo" da mensagem como erro
+      setTipoMensagem("erro")
+    }
+  }
  return (
     <ScrollView>
         { /*=========== TOPO (HEADER) =============*/}
         { /*=========== Área de cabeçalho com logo e menu =============*/}
-        <View style={styles.topo}>
-
-        { /* Logo do sistema */}
-        <Link href = '/'>
-          <Text style={styles.logoP1}>Café</Text>
-          <Text style={styles.logoP2}>Central</Text>
-        </Link>
-
-          { /* Menu de Navegação */}
-          <View style={styles.menu}>
-            <Link href= '/'>
-              <Text style={styles.menuItem}> Início </Text>
-            </Link>
-            <Link href= '/sobre'>
-              <Text style={styles.menuItem}> Sobre </Text>
-            </Link>
-            <Link href= '/contato'>
-              <Text style={[styles.menuItem, styles.ativo]}> Contato </Text>
-            </Link>
-          </View>
-        </View>
+        <Header ativo = "contato"> </Header>
 
         { /*=========== CONTEUDO DA PAGINA  =============*/}
         { /* Parte final da pagina */}
@@ -136,16 +155,7 @@ export default function Contato() {
 
         { /*=========== RODAPÉ =============*/}
         { /* Parte final da página */}
-        <View style={styles.rodape}>
-          { /* Texto de direitos de autorais */}
-          <Text style={styles.textoRodape}> 2026 CaféCentral. Todos os direitos reservados.</Text>
-
-          { /* Links de Contato */}
-          <Link href='/contato'>
-            <Text style={styles.linkRodape}>Entre em contato</Text>
-          </Link>
-        </View>
-
+        <Footer></Footer>
     </ScrollView>
  );
 }

@@ -8,10 +8,12 @@ import {
     FlatList,
     TextInput
   } from 'react-native'; // Importa os componentes View e Text
-  import { useState } from 'react';
-  import { Link, useLocalSearchParams } from 'expo-router';
+    import { useState } from 'react';
+    import { Link, useLocalSearchParams } from 'expo-router';
+    import  Header  from '../../components/Header'
+    import Footer from '../../components/Footer'
   
-  export default function DetalhesCardapio() {
+    export default function DetalhesCardapio() {
   
     const {
       titulo,
@@ -25,31 +27,7 @@ import {
       <ScrollView>
         { /*=========== TOPO (HEADER) =============*/}
         { /*=========== Área de cabeçalho com logo e menu =============*/}
-        <View style={styles.topo}>
-  
-          { /* Logo do sistema */}
-          <Link href='/'>
-            <Text style={styles.logoP1}>Café</Text>
-            <Text style={styles.logoP2}>Central</Text>
-          </Link>
-  
-          { /* Menu de Navegação */}
-          <View style={styles.menu}>
-            <Link href='/'>
-              <Text style={styles.menuItem}> Início </Text>
-            </Link>
-            <Link href='/sobre'>
-              <Text style={styles.menuItem}> Sobre </Text>
-            </Link>
-            <Link href='/cursos'>
-              <Text style={[styles.menuItem, styles.ativo]}>Cursos</Text>
-            </Link>
-            <Link href='/contato'>
-              <Text style={styles.menuItem}> Contato </Text>
-            </Link>
-  
-          </View>
-        </View>
+        <Header ativo ="detalhecardapio"></Header>
   
         { /*=========== CONTEÚDO DA PÁGINA =============*/}
         <View style={styles.container}>
@@ -99,16 +77,7 @@ import {
         </View>
   
         { /*=========== RODAPÉ =============*/}
-        { /* Parte final da página */}
-        <           View style={styles.rodape}>
-          { /* Texto de direitos de autorais */}
-          <Text style={styles.textoRodape}> 2026 CaféCentral. Todos os direitos reservados.</Text>
-  
-          { /* Links de Contato */}
-          <Link href='/contato'>
-            <Text style={styles.linkRodape}>Entre em contato</Text>'
-          </Link>
-        </View>
+        <Footer></Footer>
   
       </ScrollView>
     );
@@ -249,7 +218,7 @@ import {
       },
   
       etiqueta: {
-        backgroundColor: '#ff6a00',
+        backgroundColor: '#e7c78a',
         color: '#ffffff',
         alignSelf: 'center',
         paddingVertical: 6,
@@ -260,7 +229,7 @@ import {
       },
   
       tituloCardapio: {
-        color: '#1a4db3',
+        color: '#e7c78a',
         fontSize: 28,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -288,7 +257,7 @@ import {
       },
   
       infoLabel: {
-        color: '#1a4db3',
+        color: '#e7c78a',
         fontWeight: 'bold',
         fontSize: 20,
         marginBottom: 8,
@@ -304,7 +273,7 @@ import {
       },
   
       subtitulo: {
-        color: '#1a4db3',
+        color: '#e7c78a',
         fontWeight: 'bold',
         fontSize: 20,
         marginBottom: 8,
@@ -320,7 +289,7 @@ import {
       },
   
       btnVoltar: {
-        backgroundColor: '#1a4db3',
+        backgroundColor: '#e7c78a',
         paddingVertical: 12,
         borderRadius: 8,
         marginTop: 10,
@@ -333,26 +302,26 @@ import {
       },
   
       rodape: {
-        backgroundColor: '#1a4db3',
+        backgroundColor: '#21282A',
         padding: 20,
         alignItems: 'center',
         gap: 8,
       },
-  
+ 
       textoRodape: {
-        color: '#ffffff',
+        color : '#e7c78a',
         textAlign: 'center',
         marginBottom: 8,
       },
-  
+ 
       linkRodape: {
-        color: '#ff6a00',
+        color: '#e7c78a',
         fontWeight: 'bold',
         textDecorationLine: 'none'
       },
   
-      tituloDestaque: {
-        color: '#1a4db3',
+      tituloDestaque : {
+        color: '#e7c78a',
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',

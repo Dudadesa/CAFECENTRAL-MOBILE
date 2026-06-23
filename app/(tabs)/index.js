@@ -5,53 +5,32 @@ import {
   ScrollView, // Para a área principal com scroll,
   StyleSheet // Para aplicar estilo na página
  } from 'react-native'; // Importa os componentes View e Text
- import { Link } from 'expo-router';
+  import { Link } from 'expo-router';
+  import  Header  from '../../components/Header'
+  import Footer from '../../components/Footer'
  
 export default function Index() {
  return (
     <ScrollView>
         { /*=========== TOPO (HEADER) =============*/}
         { /*=========== Área de cabeçalho com logo e menu =============*/}
-        <View style={styles.topo}>
-
-        { /* Logo do sistema */}
-          <Link href = '/'>
-            <Text style={styles.logoP1}>Cafe</Text>
-            <Text style={styles.logoP2}>Central</Text>
-          </Link>
-
-          { /* Menu de Navegação */}
-          <View style={styles.menu}>
-            <Link href= '/'>
-              <Text style={[styles.menuItem, styles.ativo]}> Início </Text>
-            </Link>
-            <Link href= '/sobre'>
-              <Text style={styles.menuItem}> Sobre </Text>
-            </Link>
-            <Link href= '/contato'>
-              <Text style={styles.menuItem}> Contato </Text>
-            </Link>
-            <Link href= '/login'>
-              <Text style={styles.menuItem}>Login</Text>
-            </Link>
-          </View>
-        </View>
+        <Header ativo = "inicio"></Header>
 
         { /*=========== HERO =============*/}
         { /* Seção principal (banner incial) */}
         <View style={styles.hero}>
           <View style={styles.heroContent}>
         { /* Título Principal */}
-          <Text style={styles.heroTitulo}> Formação em Tecnologia para o mercado real</Text>
+          <Text style={styles.heroTitulo}> Bem-vindo ao Café Central </Text>
          
           { /* Descrição */}
           <Text style={styles.descricao}>
-            Aprenda desenvolvimento web, lógica e banco de dados
-          </Text>
+            Desfrute dos melhores cafés e doces da cidade 
+            </Text>
 
           { /* Aviso sobre Login */}
           <Text style={styles.avisoLogin}>
-            Para visualizar os cursos, é necessário fazer login
+            
           </Text>
 
           { /* Botão principal */}
@@ -77,7 +56,7 @@ export default function Index() {
           <View style={styles.container}>
          
           { /* Título da Seção */}
-          <Text style ={styles.tituloDestaque}>Bem vindo a CafeCentral</Text>
+          <Text style ={styles.tituloDestaque}>Um pouco das nossas qualidades</Text>
 
           <View style={styles.cards}>
          
@@ -85,7 +64,7 @@ export default function Index() {
 
           { /* CARD 1 */}
           <View style = {styles.card}>
-            <Text style = {styles.cardTitulo}>Cafés Premiun</Text> { /* Título */}
+            <Text style = {styles.cardTitulo}>Cafés Premium</Text> { /* Título */}
             <Text style = {styles.cardDescricao}> { /* Descrição */}
               Experiência única com grãos de alta qualidade
             </Text>
@@ -113,15 +92,7 @@ export default function Index() {
 
         { /*=========== RODAPÉ =============*/}
         { /* Parte final da página */}
-        <View style={styles.rodape}>
-          { /* Texto de direitos de autorais */}
-          <Text style={styles.textoRodape}> 2026 CafeCentral. Todos os direitos reservados.</Text>
-
-          { /* Links de Contato */}
-          <Link href='/contato'>
-            <Text style={styles.linkRodape}>Entre em contato</Text>
-          </Link>
-        </View>
+        <Footer></Footer>
 
     </ScrollView>
  );
@@ -203,7 +174,7 @@ const styles = StyleSheet.create(
     },
 
     btnPrimario: {
-      backgroundColor: '#c8a96a',
+      backgroundColor: '#222',
       color: '#ffffff',
       paddingHorizontal:10,
       paddingVertical: 20,
@@ -214,11 +185,11 @@ const styles = StyleSheet.create(
 
     btnSecundario: {
       backgroundColor: '#ffffff',
-      color: '#c8a96a',
+      color: '#e7c78a',
       paddingHorizontal:10,
       paddingVertical: 20,
       borderRadius: 8,
-      borderColor: '#c8a96a',
+      borderColor: '#e7c78a',
       borderWidth: 2,
       marginTop: 10,
       minWidth:160,
@@ -258,12 +229,12 @@ const styles = StyleSheet.create(
     },
 
     card : {
-      backgroundColor: '#c8a96a',
+      backgroundColor: '#e7c78a',
       padding: 20,
       borderRadius: 8,
       marginBottom: 10,
       elevation: 3,
-      shadowColor: '#c8a96a',
+      shadowColor: '#e7c78a',
       shadowOpacity: 0.08,
       shadowRadius:4,
       textShadowOffset:{
