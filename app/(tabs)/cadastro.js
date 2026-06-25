@@ -3,12 +3,13 @@ import {
     Text, // Para exibir textos (= p, h1...)
     TouchableOpacity, // Para botões clicáveis (= button)
     ScrollView, // Para a área principal com scroll,
-    StyleSheet // Para aplicar estilo na página
+    StyleSheet, // Para aplicar estilo na página
+    TextInput 
    } from 'react-native'; // Importa os componentes View e Text
-   import { Link } from 'expo-router';
-   import { TextInput } from 'react-native-web';
+   import { Link,  } from 'expo-router';
    import  Header  from '../../components/Header'
    import Footer from '../../components/Footer'
+   import { useState } from 'react';
 
   const API_URL = "http://localhost:3000"
    
@@ -136,35 +137,47 @@ import {
              
                 <View style={styles.blocoAuth}>
                   <Text style={styles.label}>Nome</Text>
-                  <TextInput placeholder='Digite seu nome'
-                            style={styles.input}>
-                  </TextInput>
-               
-                  <Text style={styles.label}>Email</Text>
-                  <TextInput placeholder='Digite seu email'
-                             keyboardType='email-address'
-                             style={styles.input}>
-                  </TextInput>
-  
-                  <Text style={styles.label}>Senha</Text>
-                  <TextInput placeholder='Digite sua senha'
-                             secureTextEntry={true}
-                             style={styles.input}>
-                  </TextInput>
-  
-                  <Text style={styles.label}>Corfirma senha</Text>
-                  <TextInput placeholder='Digite sua novamente'
-                             secureTextEntry={true}
-                             style={styles.input}>
-                  </TextInput>
-  
-                  <TouchableOpacity style = {styles.btnPrimario}>
-                    <Text style= {styles.textoBotao}>
-                      Cadastrar
-                    </Text>
-                  </TouchableOpacity>
-  
-                  <Text style={styles.mensagemAuth}></Text>
+<TextInput 
+  placeholder='Digite seu nome'
+  style={styles.input}
+  value={nome}
+  onChangeText={setNome}
+/>
+
+<Text style={styles.label}>Email</Text>
+<TextInput 
+  placeholder='Digite seu email'
+  keyboardType='email-address'
+  style={styles.input}
+  value={email}
+  onChangeText={setEmail}
+/>
+
+<Text style={styles.label}>Senha</Text>
+<TextInput 
+  placeholder='Digite sua senha'
+  secureTextEntry={true}
+  style={styles.input}
+  value={senha}
+  onChangeText={setSenha}
+/>
+
+<Text style={styles.label}>Confirma senha</Text>
+<TextInput 
+  placeholder='Digite sua senha novamente'
+  secureTextEntry={true}
+  style={styles.input}
+  value={confirmarSenha}
+  onChangeText={setConfirmarSenha}
+/>
+
+<TouchableOpacity style={styles.btnPrimario} onPress={validarCadastro}>
+  <Text style={styles.textoBotao}>Cadastrar</Text>
+</TouchableOpacity>
+
+<Text style={[styles.mensagemAuth, {color: tipoMensagem === 'erro' ? 'red' : 'green'}]}>
+  {mensagemSistema}
+</Text>
   
                   <Text style={styles.linkAuth}>
                     Ja possui uma conta?
@@ -296,7 +309,7 @@ import {
         borderColor: '#e7c78a',
         borderRadius: 6,
         fontSize: 16,
-        background: '#e7c78a'
+        backgroundColor: 'white'
       },
   
       btnPrimario: {

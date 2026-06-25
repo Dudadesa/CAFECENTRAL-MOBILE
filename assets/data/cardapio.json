@@ -1,7 +1,8 @@
+
 [
     {
         "id": "1",
-        "titulo": "Cafe Expresso",
+        "titulo": "Cafe Espresso",
         "img": "cafeexpresso.webp",
         "descricao": "Café puro e intenso, extraído sob pressão",
         "R$": 5,

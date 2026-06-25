@@ -1,13 +1,22 @@
-import {TouchableOpacity, Text, StyleSheet, View} from 'react-native'
+import { Text, StyleSheet, View} from 'react-native'
 import {Link} from 'expo-router'
 
-export default function BotaoPrimario({texto,funcao}){ 
-    return(
-        <TouchableOpacity style={styles.btnPrimario} onPress={funcao}>
-                                    <Text style={styles.textoBotao}>{texto}</Text>
-                                </TouchableOpacity>
-    )
+export default function Footer(){
+  return(
+    // ==========RODAPE=========
+    <View style={styles.rodape}>
+    {/* TEXTO DE DIREITOS AUTORAIS*/}
+    <Text style={styles.textoRodape}> 2026 Cafe Central todos os direitos reservados </Text>
+
+    {/* Links de contato*/}
+    <Link href='/contato'>
+    <Text style={styles.linkRodape}>Entre em contato</Text>
+    </Link>
+    </View>
+  )
 }
+
+
 const styles = StyleSheet.create({
     rodape: {
       backgroundColor: '#21282A',

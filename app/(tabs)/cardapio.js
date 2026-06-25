@@ -13,8 +13,14 @@ import {
     import cardapioJson from '../../assets/data/cardapio.json';
     import  Header  from '../../components/Header'
     import Footer from '../../components/Footer'
+    import { useRouter } from 'expo-router'; 
+  
    
+   
+  
+      
   export default function Cardapio() {
+    const router = useRouter();  
     // Cria um objeto JS como se fosse um dicionário para armazenar as imagens
     const imagensCardapio = {
                 'cafeexpresso.webp' : require('../../assets/images/cafeexpresso.webp'),
@@ -46,6 +52,10 @@ import {
 
     )
 
+  
+
+  
+ 
    return (
       <ScrollView>
           { /*=========== TOPO (HEADER) =============*/}
@@ -60,7 +70,7 @@ import {
 
             <TextInput
               style={styles.buscarCardapios}
-              placeholder="Buscar Cardapios"
+              placeholder="O que você deseja"
               value={busca}
               onChangeText={setBusca}
             ></TextInput>
@@ -87,25 +97,23 @@ import {
                     R$: {item.R$} 
                   </Text>
 
-                  <Link style={styles.cardapioBtnLink} href={{
-                    pathname: '/detalhesCurso',
+                  <TouchableOpacity 
+                  style={styles.btnCardapio}
+                  onPress={() => router.push({
+                    pathname: '/detalhescardapio',
                     params: {
                       titulo: item.titulo,
                       descricao: item.descricao,
-                      R$: item.r$,
+                      R$: item.R$,
                       objetivo: item.objetivo,
                       publico: item.publico,
-                    },
-                  }} asChild>
-
-                    <TouchableOpacity style={styles.btnCardapio}>
-                      <Text style={styles.textoBtnCardapio}>
-                        Ver detalhes
-                      </Text>
-                    </TouchableOpacity>
-                   
-                  </Link>
-
+                    }
+                  })}
+                >
+                  <Text style={styles.textoBtnCardapio}>
+                    Ver detalhes
+                  </Text>
+                </TouchableOpacity>
                 </View>
 
               )}
@@ -208,10 +216,12 @@ import {
       },
 
       textoBtnCardapio: {
-        color: 'white',
-        fontSize: 10,
+       backgroundColor: '#e7c78a', // ← cor do botão
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 6,
         textAlign: 'center',
-        width: 80
+        marginTop: 10,
       },
 
       cardapioBtnLink: {

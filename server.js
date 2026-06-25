@@ -78,7 +78,7 @@ app.post("/cadastro", async (req,res) => {
 
         // 3 - Consulta o banco: já existe usuário com esse e-mail
         const [rows]  = await conexao.execute(
-            "SELECT id FROM tb_usuarios WHERE email=?", [email]
+            "SELECT id FROM tb_usuario WHERE email=?", [email]
         );
 
         if(rows.length>0){
@@ -90,7 +90,7 @@ app.post("/cadastro", async (req,res) => {
 
         // 5 - Insere um novo usuário no banco com senha criptografada
 
-        const sql = `INSERT INTO tb_usuarios
+        const sql = `INSERT INTO tb_usuario
                     (nome,email,senha)
                     VALUES(?,?,?)`
         conexao.execute(sql,[nome,email,senhaHash])
@@ -111,7 +111,7 @@ app.post("/login",async (req,res)=>{
             return res.status(400).json({erro: "Preencha todos os campos"})
         }
 
-        const sql = `SELECT * FROM tb_usuarios
+        const sql = `SELECT * FROM tb_usuario
                     WHERE email=?`
 
         const [resultado] = await conexao.execute(sql,[email])

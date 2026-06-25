@@ -67,7 +67,7 @@ import {
         // Limpa os campos do formulário
         setEmail('')
         setSenha('')
-        router.push('/cursos')
+        router.push('/cardapio')
       } else{
         // Mostra a mensagem de erro vinda da API,
           // ou um texto padrão se ela não enviar nada
@@ -97,7 +97,7 @@ import {
                     <Text style={styles.tituloAuth}>Login</Text>
                     <Text style={styles.textoAuth}>
                         Entre com seu e-mail e senha para
-                        acessar os cursos.
+                        acessar o cardapio.
                     </Text>
                     <View style={styles.blocoAuth}>
                         { /* CAMPO DE E-MAIL */}
